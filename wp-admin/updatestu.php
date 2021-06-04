@@ -1,0 +1,99 @@
+<?php ob_start();
+include('includes/header.php');
+include('includes/connection.php');
+ ?>
+
+      
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+              <!-- page start-->
+              <div class="row">
+                  <div class="col-lg-12">
+                      <section class="panel">
+                        <?php
+                          if(isset($_GET['stuid']))
+                          {
+                            //$_SESSION['course_id']=$_GET['c'];
+                            $query_delete=mysqli_query($connection,"delete from rms_student_register where id='".$_GET['stuid']."'");
+                            if(mysqli_affected_rows($connection)>0)
+                            {
+                                echo '<script>
+                                alert("Student Record Deleted Successfully.");
+                              var windowlocation = window.location.href.split("?")[0];
+                               window.location.href =windowlocation;
+                                </script>';
+                            }
+                          }
+                          ?>
+                          <header class="panel-heading">
+                              Student Record
+                          </header>
+                          <div class="panel-body">
+                                <div class="adv-table">
+                                    <table  class="display table table-bordered table-striped" id="example">
+                                      <thead>
+                                      <tr>
+                                          <th>Enrollment Date</th>
+                                          <th>Enrollment ID</th>
+                                          <th>Name</th>
+                                          <th>Fname</th>
+                                          <th>Email ID</th>
+                                          <th class="hidden-phone">Password</th>
+                                          <th class="hidden-phone">Class</th>
+                                          <th>Section</th>
+                                          <th class="hidden-phone">Action</th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      <?php
+                                      $query=mysqli_query($connection,"select * from rms_student_register order by id desc");
+                                      if(mysqli_num_rows($query)>0)
+                                      {
+                                           while($row=mysqli_fetch_array($query))
+                                           {
+                                                ?>
+                                              <tr class="gradeX">
+                                                  <td><?php echo $row['doad']; ?></td>
+                                                  <td><?php echo $row['regno']; ?></td>
+                                                  <td><?php echo $row['name']; ?></td>
+                                                  <td><?php echo $row['fname']; ?></td>
+                                                  <td><?php echo $row['email']; ?></td>
+                                                  <td class="center hidden-phone"><?php echo $row['password']; ?></td>
+                                                  <td class="center hidden-phone"><?php echo $row['class']; ?></td>
+                                                  <td><?php echo $row['section']; ?></td>
+                                                  <td class=" "><a href="editstu.php?stuid=<?php echo $row['id'] ?>" class="btn btn-primary btn-xs"><i class="icon-pencil"></i></a>
+                                      <a href="updatestu.php?stuid=<?php echo $row['id']; ?>" onClick="javascript:return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-xs"><i class="icon-trash "></i></a>
+                                      </td>
+                                              </tr>
+                                                
+                                                <?php
+                                           }   
+                                      } 
+                                      ?>
+                                      </tbody>
+                                      <tfoot>
+                                      <tr>
+                                          <th>Enrollment Date</th>
+                                          <th>Enrollment ID</th>
+                                          <th>Name</th>
+                                          <th>Fname</th>
+                                          <th>Email ID</th>
+                                          <th class="hidden-phone">Password</th>
+                                          <th class="hidden-phone">Class</th>
+                                          <th>Section</th>
+                                          <th class="hidden-phone">Action</th>
+                                      </tr>
+                                      </tfoot>
+                          </table>
+                                </div>
+                          </div>
+                      </section>
+                  </div>
+              </div>
+              <!-- page end-->
+          </section>
+      </section>
+      <!--main content end-->
+<?php include('includes/footer.php');
+?>
